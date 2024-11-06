@@ -10,6 +10,7 @@ export class PlaceOrderStore {
   @observable activeOrderSide: OrderSide = "buy";
   @observable price = 0;
   @observable amount = 0;
+  @observable isCheckedTakeProfit = false;
 
   @computed get total(): number {
     return this.price * this.amount;
@@ -33,5 +34,10 @@ export class PlaceOrderStore {
   @action
   public setTotal = (total: number) => {
     this.amount = this.price > 0 ? total / this.price : 0;
+  };
+
+  @action
+  public setSwitchTakeProfit = (flag: boolean) => {
+    this.isCheckedTakeProfit = flag;
   };
 }

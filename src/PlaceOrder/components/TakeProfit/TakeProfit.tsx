@@ -1,7 +1,13 @@
 import styles from "./TakeProfit.module.scss";
+import { observer } from "mobx-react";
+import { TakeProfitHeader } from "../TakeProfitHeader/TakeProfitHeader";
 
-const TakeProfit = () => {
-  return <div className={styles.root}>[Take Profit Block]</div>;
-};
+const TakeProfit = observer(() => {
+  return (
+    <div className={styles.root}>
+      <TakeProfitHeader />
+    </div>
+  );
+});
 
 export { TakeProfit };

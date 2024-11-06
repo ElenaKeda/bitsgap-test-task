@@ -1,0 +1,15 @@
+.switchBlock {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  display: flex;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  align-items: center;
+  column-gap: 5px;
+}
