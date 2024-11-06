@@ -1,0 +1,10 @@
+.root {
+  width: 24px;
+  height: 24px;
+
+  &:hover {
+    .char {
+      fill: rgb(133, 137, 151);
+    }
+  }
+}
