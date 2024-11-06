@@ -1,0 +1,25 @@
+.addButtonBlock {
+  height: 24px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: -9.5px;
+  margin-top: 10px;
+}
+
+.label {
+  color: #0078ff;
+  display: flex;
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  text-align: left;
+}
+
+.button {
+  color: #0078ff;
+  width: 24px;
+  height: 24px;
+  margin-right: 2px;
+}

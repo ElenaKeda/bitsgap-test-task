@@ -18,6 +18,7 @@ export class PlaceOrderStore {
     { profit: 4, targetPrice: 30692.9, amountToSell: 20 },
     { profit: 6, targetPrice: 31692.9, amountToSell: 20 },
     { profit: 8, targetPrice: 31692.9, amountToSell: 20 },
+    { profit: 9, targetPrice: 31692.9, amountToSell: 22 },
   ];
 
 
