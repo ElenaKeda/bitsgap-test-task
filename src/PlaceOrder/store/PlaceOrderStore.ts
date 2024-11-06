@@ -21,9 +21,29 @@ export class PlaceOrderStore {
     { profit: 9, targetPrice: 31692.9, amountToSell: 22 },
   ];
 
-
   @computed get total(): number {
     return this.price * this.amount;
+  }
+
+  @computed get projectedProfitTargets(): number[] {
+    return this.takeProfitTargets.reduce((acc, cur) => {
+      acc.push(
+        this.activeOrderSide === "buy"
+          ? this.getProfitBuy(cur)
+          : this.getProfitSell(cur)
+      );
+      return acc;
+    }, [] as number[]);
+  }
+
+  public getProfitBuy = (target: TakeProfitTargetType) =>
+    target.amountToSell * (target.targetPrice - this.price);
+
+  public getProfitSell = (target: TakeProfitTargetType) =>
+    target.amountToSell * (this.price - target.targetPrice);
+
+  @computed get totalProfitTargets(): number {
+    return this.projectedProfitTargets.reduce((acc, cur) => acc + cur, 0) || 0;
   }
 
   @action
@@ -53,7 +73,8 @@ export class PlaceOrderStore {
 
   @action
   public deleteTakeProfitTarget = (index: number) => {
-    this.takeProfitTargets = this.takeProfitTargets.filter((_, i) => i !== index);
+    this.takeProfitTargets = this.takeProfitTargets.filter(
+      (_, i) => i !== index
+    );
   };
-
 }

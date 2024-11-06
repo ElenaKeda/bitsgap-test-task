@@ -20,7 +20,7 @@ const TableDataRow = observer(
             style={{ width: "10px" }}
             className={styles.cellTextRight}
           >
-            {"%"}
+            %
           </Typography>
         </div>
 
@@ -32,7 +32,7 @@ const TableDataRow = observer(
             style={{ width: "40px" }}
             className={styles.cellTextRight}
           >
-            {"USDT"}
+            USDT
           </Typography>
         </div>
 
@@ -44,7 +44,7 @@ const TableDataRow = observer(
             style={{ width: "10px" }}
             className={styles.cellTextRight}
           >
-            {"%"}
+            %
           </Typography>
           <Typography
             onClick={() => deleteTakeProfitTarget(index)}
@@ -60,7 +60,8 @@ const TableDataRow = observer(
 );
 
 const TakeProfitTable = observer(() => {
-  const { takeProfitTargets, isCheckedTakeProfit } = useStore();
+  const { takeProfitTargets, isCheckedTakeProfit, totalProfitTargets } =
+    useStore();
 
   if (!isCheckedTakeProfit) return null;
 
@@ -77,6 +78,17 @@ const TakeProfitTable = observer(() => {
       ))}
 
       <AddTakeProfitButton />
+
+      <div className={styles.profitPanel}>
+        <Typography className={styles.profit}>Projected profit</Typography>
+
+        <div className={styles.amountBlock}>
+          <Typography className={styles.amount}>
+            {totalProfitTargets}
+          </Typography>
+          <Typography className={styles.profit}>&nbsp;USDT</Typography>
+        </div>
+      </div>
     </div>
   );
 });
