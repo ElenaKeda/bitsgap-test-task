@@ -1,6 +1,6 @@
 import { observable, computed, action, makeObservable } from "mobx";
 
-import type { OrderSide } from "../model";
+import type { OrderSide, TakeProfitTargetType } from "../model";
 
 export class PlaceOrderStore {
   constructor() {
@@ -11,6 +11,15 @@ export class PlaceOrderStore {
   @observable price = 0;
   @observable amount = 0;
   @observable isCheckedTakeProfit = false;
+
+  // TODO replace to localStorage
+  @observable takeProfitTargets: TakeProfitTargetType[] = [
+    { profit: 2, targetPrice: 30392.9, amountToSell: 40 },
+    { profit: 4, targetPrice: 30692.9, amountToSell: 20 },
+    { profit: 6, targetPrice: 31692.9, amountToSell: 20 },
+    { profit: 8, targetPrice: 31692.9, amountToSell: 20 },
+  ];
+
 
   @computed get total(): number {
     return this.price * this.amount;
@@ -40,4 +49,10 @@ export class PlaceOrderStore {
   public setSwitchTakeProfit = (flag: boolean) => {
     this.isCheckedTakeProfit = flag;
   };
+
+  @action
+  public deleteTakeProfitTarget = (index: number) => {
+    this.takeProfitTargets = this.takeProfitTargets.filter((_, i) => i !== index);
+  };
+
 }

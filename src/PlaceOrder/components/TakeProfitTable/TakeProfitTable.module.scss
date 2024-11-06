@@ -1,0 +1,64 @@
+$infoTextColor: #a2a7b9;
+
+.tableContainer {
+  max-width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 36px;
+  border-bottom: 1px rgb(#a2a7b9cc, 0.8) solid;
+}
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cellTextLeft {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  color: #ffffff;
+  text-align: left;
+}
+
+.cellTextRight {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  color: $infoTextColor;
+  text-align: right;
+}
+
+.headerText {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  color: $infoTextColor;
+  text-align: right;
+}
+
+.closeButton {
+  color: $infoTextColor;
+  text-align: right;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
