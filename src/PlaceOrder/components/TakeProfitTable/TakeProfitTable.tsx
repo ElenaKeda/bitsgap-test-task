@@ -5,6 +5,7 @@ import { useStore } from "PlaceOrder/context";
 import { DeleteIcon } from "shared/components/DeleteIcon/DeleteIcon";
 import { TakeProfitTargetType } from "PlaceOrder/model";
 import { AddTakeProfitButton } from "../AddTakeProfitButton/AddTakeProfitButton";
+import { ErrorField } from "../ErorrField/ErrorField";
 import classNames from "classnames";
 
 const TableDataRow = observer(
@@ -140,6 +141,8 @@ const TakeProfitTable = observer(() => {
       {takeProfitTargets.map((target, index) => (
         <TableDataRow data={target} index={index} key={index} />
       ))}
+
+      <ErrorField />
 
       <AddTakeProfitButton />
 

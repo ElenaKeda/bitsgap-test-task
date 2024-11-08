@@ -1,0 +1,23 @@
+.errorBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  display: flex;
+  margin: 8px 0;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid #333545;
+  opacity: 0px;
+}
+
+.errorText {
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #f96c5a;
+}

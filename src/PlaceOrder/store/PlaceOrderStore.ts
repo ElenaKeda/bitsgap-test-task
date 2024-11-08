@@ -29,9 +29,9 @@ export class PlaceOrderStore {
   @observable price = 0;
   @observable amount = 0;
   @observable isCheckedTakeProfit = false;
-
   @observable takeProfitTargets: TakeProfitTargetType[] =
     defaultTakeProfitTarget;
+  @observable isError = false;
 
   @computed get total(): number {
     return this.price * this.amount;
@@ -46,6 +46,10 @@ export class PlaceOrderStore {
       );
       return acc;
     }, [] as number[]);
+  }
+
+  @computed get totalProfitTargets(): number {
+    return this.projectedProfitTargets.reduce((acc, cur) => acc + cur, 0) || 0;
   }
 
   public getTargetPrice = (profit: number) =>
@@ -64,10 +68,6 @@ export class PlaceOrderStore {
 
   public getProfitSell = (target: TakeProfitTargetType) =>
     +(target.amountToSell * (this.price - target.targetPrice)).toFixed(2);
-
-  @computed get totalProfitTargets(): number {
-    return this.projectedProfitTargets.reduce((acc, cur) => acc + cur, 0) || 0;
-  }
 
   @action
   public setOrderSide = (side: OrderSide) => {
@@ -95,6 +95,11 @@ export class PlaceOrderStore {
   };
 
   @action
+  public setError = (flag: boolean) => {
+    this.isError = flag;
+  };
+
+  @action
   public deleteTakeProfitTarget = (index: number) => {
     this.takeProfitTargets = this.takeProfitTargets.filter(
       (_, i) => i !== index
@@ -118,7 +123,7 @@ export class PlaceOrderStore {
   };
 
   @action
-  editTakeProfitTarget = (
+  public editTakeProfitTarget = (
     index: number,
     propName: keyof TakeProfitTargetType,
     value: string
