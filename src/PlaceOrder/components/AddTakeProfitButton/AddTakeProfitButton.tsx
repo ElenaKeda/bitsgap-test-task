@@ -7,7 +7,7 @@ import { MAX_PROFIT_TARGETS } from "PlaceOrder/constants";
 import { useMemo } from "react";
 
 const AddTakeProfitButton = observer(() => {
-  const { takeProfitTargets } = useStore();
+  const { takeProfitTargets, addNewTakeProfitTarget } = useStore();
 
   const profitNumber = takeProfitTargets.length || 0;
   const newNumber = useMemo(() => profitNumber + 1, [profitNumber]);
@@ -16,7 +16,7 @@ const AddTakeProfitButton = observer(() => {
 
   return (
     <div className={styles.addButtonBlock}>
-      <IconButton aria-label="add" onClick={() => console.log("add")}>
+      <IconButton aria-label="add" onClick={() => addNewTakeProfitTarget()}>
         <PlusIcon className={styles.button} />
       </IconButton>
 

@@ -69,6 +69,8 @@ const TakeProfitTable = observer(() => {
 
   if (!isCheckedTakeProfit) return null;
 
+  if (!takeProfitTargets) return null;
+
   return (
     <div className={styles.tableContainer}>
       <div className={styles.header}>

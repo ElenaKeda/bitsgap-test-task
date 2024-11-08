@@ -1,4 +1,10 @@
-import { observable, computed, action, makeObservable, reaction } from "mobx";
+import {
+  observable,
+  computed,
+  action,
+  makeObservable,
+  reaction,
+} from "mobx";
 
 import type { OrderSide, TakeProfitTargetType } from "../model";
 
@@ -115,6 +121,8 @@ export class PlaceOrderStore {
     this.takeProfitTargets = this.takeProfitTargets.filter(
       (_, i) => i !== index
     );
+
+    this.balanceAmountToSell();
   };
 
   @action
@@ -129,4 +137,68 @@ export class PlaceOrderStore {
       return item;
     });
   };
+
+  @action
+  public addNewTakeProfitTarget = () => {
+    const lastTarget =
+      this.takeProfitTargets[this.takeProfitTargets.length - 1];
+    const newProfit = lastTarget.profit + 2;
+    const newAmountToSell = 20;
+
+    const newTarget: TakeProfitTargetType = {
+      profit: newProfit,
+      targetPrice: this.getTargetPrice(newProfit),
+      amountToSell: newAmountToSell,
+    };
+
+    this.takeProfitTargets.push(newTarget);
+
+    this.balanceAmountToSell();
+  };
+
+  @action
+  public balanceAmountToSell = () => {
+    const totalAmount = this.takeProfitTargets.reduce(
+      (sum, target) => sum + target.amountToSell,
+      0
+    );
+
+    if (totalAmount === 100) return;
+
+    const excessAmount = totalAmount - 100;
+
+    this.takeProfitTargets = this.takeProfitTargets.map((target, index) => {
+      if (target.amountToSell > 20) {
+        return { ...target, amountToSell: target.amountToSell - excessAmount };
+      }
+      if (target.amountToSell === 20 && index === 0) {
+        return { ...target, amountToSell: target.amountToSell - excessAmount };
+      }
+      return target;
+    });
+  };
 }
+
+// @action
+// public balanceAmountToSell = () => {
+//   const totalAmount = this.takeProfitTargets.reduce(
+//     (sum, target) => sum + target.amountToSell,
+//     0
+//   );
+
+//   if (totalAmount <= 100) return;
+
+//   let excessAmount = totalAmount - 100;
+
+//   const sortedTargets = [...this.takeProfitTargets].sort(
+//     (a, b) => b.amountToSell - a.amountToSell
+//   );
+
+//   for (const target of sortedTargets) {
+//     if (excessAmount <= 0) break;
+
+//     const reduceAmount = Math.min(excessAmount, target.amountToSell);
+//     target.amountToSell -= reduceAmount;
+//     excessAmount -= reduceAmount;
+//   }
+// };
