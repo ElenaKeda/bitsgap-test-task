@@ -60,8 +60,12 @@ const TableDataRow = observer(
 );
 
 const TakeProfitTable = observer(() => {
-  const { takeProfitTargets, isCheckedTakeProfit, totalProfitTargets } =
-    useStore();
+  const {
+    activeOrderSide,
+    takeProfitTargets,
+    isCheckedTakeProfit,
+    totalProfitTargets,
+  } = useStore();
 
   if (!isCheckedTakeProfit) return null;
 
@@ -70,7 +74,9 @@ const TakeProfitTable = observer(() => {
       <div className={styles.header}>
         <Typography className={styles.headerText}>Profit</Typography>
         <Typography className={styles.headerText}>Target price</Typography>
-        <Typography className={styles.headerText}>Amount to sell</Typography>
+        <Typography className={styles.headerText}>
+          {activeOrderSide === "buy" ? "Amount to sell" : "Amount to buy"}
+        </Typography>
       </div>
 
       {takeProfitTargets.map((target, index) => (
