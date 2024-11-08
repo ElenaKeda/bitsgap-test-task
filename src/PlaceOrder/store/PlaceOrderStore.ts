@@ -1,10 +1,4 @@
-import {
-  observable,
-  computed,
-  action,
-  makeObservable,
-  reaction,
-} from "mobx";
+import { observable, computed, action, makeObservable, reaction } from "mobx";
 
 import type { OrderSide, TakeProfitTargetType } from "../model";
 
@@ -13,21 +7,9 @@ export class PlaceOrderStore {
     makeObservable(this);
 
     reaction(
-      () => this.isCheckedTakeProfit,
-      (checked) => {
-        checked &&
-          this.calculateCurrentTakeProfitTarget(
-            this.takeProfitTargets.length - 1
-          );
-      }
-    );
-
-    reaction(
       () => this.activeOrderSide,
       () => {
-        this.calculateCurrentTakeProfitTarget(
-          this.takeProfitTargets.length - 1
-        );
+        this.calculateCurrentTakeProfitTarget(null);
       }
     );
 
@@ -46,13 +28,8 @@ export class PlaceOrderStore {
   @observable amount = 0;
   @observable isCheckedTakeProfit = false;
 
-  // TODO replace to localStorage
   @observable takeProfitTargets: TakeProfitTargetType[] = [
     { profit: 2, targetPrice: 0, amountToSell: 100 },
-    // { profit: 4, targetPrice: 30692.9, amountToSell: 20 },
-    // { profit: 6, targetPrice: 31692.9, amountToSell: 20 },
-    // { profit: 8, targetPrice: 31692.9, amountToSell: 20 },
-    // { profit: 9, targetPrice: 31692.9, amountToSell: 22 },
   ];
 
   @computed get total(): number {
@@ -126,14 +103,15 @@ export class PlaceOrderStore {
   };
 
   @action
-  public calculateCurrentTakeProfitTarget = (index: number) => {
+  public calculateCurrentTakeProfitTarget = (index: number | null) => {
     this.takeProfitTargets = this.takeProfitTargets.map((item, i) => {
-      if (i === index) {
+      if (i === index || index === null) {
         return {
           ...item,
-          targetPrice: this.getTargetPrice(2),
+          targetPrice: this.getTargetPrice(item.profit),
         };
       }
+
       return item;
     });
   };
