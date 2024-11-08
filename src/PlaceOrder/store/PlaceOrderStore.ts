@@ -2,6 +2,10 @@ import { observable, computed, action, makeObservable, reaction } from "mobx";
 
 import type { OrderSide, TakeProfitTargetType } from "../model";
 
+const defaultTakeProfitTarget: TakeProfitTargetType[] = [
+  { profit: 2, targetPrice: 0, amountToSell: 100 },
+];
+
 export class PlaceOrderStore {
   constructor() {
     makeObservable(this);
@@ -9,16 +13,14 @@ export class PlaceOrderStore {
     reaction(
       () => this.activeOrderSide,
       () => {
-        this.calculateCurrentTakeProfitTarget(null);
+        this.calculateTakeProfitTarget(null);
       }
     );
 
     reaction(
       () => this.price,
       () => {
-        this.calculateCurrentTakeProfitTarget(
-          this.takeProfitTargets.length - 1
-        );
+        this.calculateTakeProfitTarget(this.takeProfitTargets.length - 1);
       }
     );
   }
@@ -28,9 +30,8 @@ export class PlaceOrderStore {
   @observable amount = 0;
   @observable isCheckedTakeProfit = false;
 
-  @observable takeProfitTargets: TakeProfitTargetType[] = [
-    { profit: 2, targetPrice: 0, amountToSell: 100 },
-  ];
+  @observable takeProfitTargets: TakeProfitTargetType[] =
+    defaultTakeProfitTarget;
 
   @computed get total(): number {
     return this.price * this.amount;
@@ -53,16 +54,16 @@ export class PlaceOrderStore {
       : this.getTargetPriceSell(profit);
 
   public getTargetPriceBuy = (profit: number) =>
-    this.price * (1 + profit / 100);
+    +(this.price * (1 + profit / 100)).toFixed(1);
 
   public getTargetPriceSell = (profit: number) =>
-    this.price * (1 - profit / 100);
+    +(this.price * (1 - profit / 100)).toFixed(1);
 
   public getProfitBuy = (target: TakeProfitTargetType) =>
-    target.amountToSell * (target.targetPrice - this.price);
+    +(target.amountToSell * (target.targetPrice - this.price)).toFixed(2);
 
   public getProfitSell = (target: TakeProfitTargetType) =>
-    target.amountToSell * (this.price - target.targetPrice);
+    +(target.amountToSell * (this.price - target.targetPrice)).toFixed(2);
 
   @computed get totalProfitTargets(): number {
     return this.projectedProfitTargets.reduce((acc, cur) => acc + cur, 0) || 0;
@@ -103,7 +104,7 @@ export class PlaceOrderStore {
   };
 
   @action
-  public calculateCurrentTakeProfitTarget = (index: number | null) => {
+  private calculateTakeProfitTarget = (index: number | null) => {
     this.takeProfitTargets = this.takeProfitTargets.map((item, i) => {
       if (i === index || index === null) {
         return {
@@ -117,10 +118,28 @@ export class PlaceOrderStore {
   };
 
   @action
+  editTakeProfitTarget = (
+    index: number,
+    propName: keyof TakeProfitTargetType,
+    value: string
+  ) => {
+    this.takeProfitTargets = this.takeProfitTargets.map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          [propName]: +value,
+        };
+      }
+
+      return item;
+    });
+  };
+
+  @action
   public addNewTakeProfitTarget = () => {
     const lastTarget =
       this.takeProfitTargets[this.takeProfitTargets.length - 1];
-    const newProfit = lastTarget.profit + 2;
+    const newProfit = lastTarget ? lastTarget.profit + 2 : 2;
     const newAmountToSell = 20;
 
     const newTarget: TakeProfitTargetType = {

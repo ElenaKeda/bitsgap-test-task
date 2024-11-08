@@ -28,31 +28,19 @@ $mainTextColor: #ffffff;
   align-items: center;
 }
 
-.cellTextLeft {
+.cellText {
   font-family: "Inter", sans-serif;
   font-size: 12px;
   font-weight: 500;
   line-height: 14px;
+}
+
+.mainTextColor {
   color: $mainTextColor;
-  text-align: left;
 }
 
-.cellTextRight {
-  font-family: "Inter", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 14px;
+.infoTextColor {
   color: $infoTextColor;
-  text-align: right;
-}
-
-.headerText {
-  font-family: "Inter", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 14px;
-  color: $infoTextColor;
-  text-align: right;
 }
 
 .closeButton {
