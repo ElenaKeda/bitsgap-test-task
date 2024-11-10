@@ -4,13 +4,13 @@ import { observer } from "mobx-react";
 import { useStore } from "PlaceOrder/context";
 
 const ErrorField = observer(() => {
-  const { isError } = useStore();
+  const { error } = useStore();
 
-  if (!isError) return null;
+  if (!error.isShowError) return null;
 
   return (
     <div className={styles.errorBlock}>
-      <Typography className={styles.errorText}>{"Error message"}</Typography>
+      <Typography className={styles.errorText}>{error.message}</Typography>
     </div>
   );
 });

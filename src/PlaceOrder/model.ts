@@ -5,3 +5,5 @@ export type TakeProfitTargetType = {
   targetPrice: number;
   amountToSell: number;
 };
+
+export type ErrorType = { isShowError: boolean; message: string | null };

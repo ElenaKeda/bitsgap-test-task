@@ -1,6 +1,6 @@
 import { observable, computed, action, makeObservable, reaction } from "mobx";
 
-import type { OrderSide, TakeProfitTargetType } from "../model";
+import type { ErrorType, OrderSide, TakeProfitTargetType } from "../model";
 
 const defaultTakeProfitTarget: TakeProfitTargetType[] = [
   { profit: 2, targetPrice: 0, amountToSell: 100 },
@@ -31,7 +31,7 @@ export class PlaceOrderStore {
   @observable isCheckedTakeProfit = false;
   @observable takeProfitTargets: TakeProfitTargetType[] =
     defaultTakeProfitTarget;
-  @observable isError = false;
+  @observable error: ErrorType = { isShowError: false, message: "" };
 
   @computed get total(): number {
     return this.price * this.amount;
@@ -95,8 +95,8 @@ export class PlaceOrderStore {
   };
 
   @action
-  public setError = (flag: boolean) => {
-    this.isError = flag;
+  public setError = (error: ErrorType) => {
+    this.error = error;
   };
 
   @action
@@ -180,27 +180,3 @@ export class PlaceOrderStore {
     });
   };
 }
-
-// @action
-// public balanceAmountToSell = () => {
-//   const totalAmount = this.takeProfitTargets.reduce(
-//     (sum, target) => sum + target.amountToSell,
-//     0
-//   );
-
-//   if (totalAmount <= 100) return;
-
-//   let excessAmount = totalAmount - 100;
-
-//   const sortedTargets = [...this.takeProfitTargets].sort(
-//     (a, b) => b.amountToSell - a.amountToSell
-//   );
-
-//   for (const target of sortedTargets) {
-//     if (excessAmount <= 0) break;
-
-//     const reduceAmount = Math.min(excessAmount, target.amountToSell);
-//     target.amountToSell -= reduceAmount;
-//     excessAmount -= reduceAmount;
-//   }
-// };

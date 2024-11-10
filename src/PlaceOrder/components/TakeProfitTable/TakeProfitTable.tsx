@@ -17,6 +17,7 @@ const TableDataRow = observer(
         <div className={styles.cell}>
           <FormControl variant="standard" sx={{ width: "39px" }}>
             <Input
+              type="number"
               id="profit"
               disableUnderline={true}
               className={classNames(styles.cellText, styles.mainTextColor)}
@@ -46,6 +47,7 @@ const TableDataRow = observer(
             sx={{ width: "85px", marginLeft: "11px" }}
           >
             <Input
+              type="number"
               fullWidth={false}
               id="targetPrice"
               disableUnderline={true}
@@ -73,6 +75,7 @@ const TableDataRow = observer(
         <div className={styles.cell}>
           <FormControl variant="standard" sx={{ width: "85px" }}>
             <Input
+              type="number"
               fullWidth={false}
               id="amountToSell"
               disableUnderline={true}
