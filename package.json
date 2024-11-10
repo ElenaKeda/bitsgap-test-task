@@ -1,5 +1,6 @@
 {
   "name": "bitsgap-test-task-v4",
+  "homepage": "https://elenakeda.github.io/bitsgap-test-task",
   "private": true,
   "version": "0.2.0",
   "type": "module",
