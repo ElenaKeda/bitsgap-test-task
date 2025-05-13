@@ -34,7 +34,7 @@ export class PlaceOrderStore {
   @observable error: ErrorType = { isShowError: false, message: "" };
 
   @computed get total(): number {
-    return this.price * this.amount;
+    return (this.price * this.amount) / 100;
   }
 
   @computed get projectedProfitTargets(): number[] {
@@ -52,21 +52,21 @@ export class PlaceOrderStore {
     return this.projectedProfitTargets.reduce((acc, cur) => acc + cur, 0) || 0;
   }
 
-  public getTargetPrice = (profit: number) =>
+  private getTargetPrice = (profit: number) =>
     this.activeOrderSide === "buy"
       ? this.getTargetPriceBuy(profit)
       : this.getTargetPriceSell(profit);
 
-  public getTargetPriceBuy = (profit: number) =>
+  private getTargetPriceBuy = (profit: number) =>
     +(this.price * (1 + profit / 100)).toFixed(1);
 
-  public getTargetPriceSell = (profit: number) =>
+  private getTargetPriceSell = (profit: number) =>
     +(this.price * (1 - profit / 100)).toFixed(1);
 
-  public getProfitBuy = (target: TakeProfitTargetType) =>
+  private getProfitBuy = (target: TakeProfitTargetType) =>
     +(target.amountToSell * (target.targetPrice - this.price)).toFixed(2);
 
-  public getProfitSell = (target: TakeProfitTargetType) =>
+  private getProfitSell = (target: TakeProfitTargetType) =>
     +(target.amountToSell * (this.price - target.targetPrice)).toFixed(2);
 
   @action
@@ -159,7 +159,7 @@ export class PlaceOrderStore {
   };
 
   @action
-  public balanceAmountToSell = () => {
+  private balanceAmountToSell = () => {
     const totalAmount = this.takeProfitTargets.reduce(
       (sum, target) => sum + target.amountToSell,
       0
